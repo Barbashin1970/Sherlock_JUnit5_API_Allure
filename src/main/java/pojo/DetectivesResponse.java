@@ -2,7 +2,7 @@ package pojo;
 
 import java.util.List;
 
-public class DetectiveResponse {
+public class DetectivesResponse {
     private List<Detective> detectives;
     private boolean success;
 

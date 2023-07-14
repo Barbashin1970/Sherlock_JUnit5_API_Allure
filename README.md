@@ -11,3 +11,13 @@ CategoryID принимает значения 1 или 2
 Массив extraArray должен иметь минимум один элемент для CategoryID=1
 Поле success принимает значение true только если в массиве detectives есть элемент с firstName ="Sherlock"
 Остальными условиями для упрощения задачи можно пренебречь.
+
+Для запуска тестов из командной строки можно использовать следующие команды:
+
+```
+mvn clean test -Dtest=AppTest#testPositive
+mvn clean test -Dtest=AppTest#testNegative
+```
+
+Где `AppTest` - имя класса с тестами, 
+`testPositive` и `testNegative` - имена методов тестирования, которые необходимо запустить.
