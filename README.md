@@ -7,9 +7,9 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 <div align="center">
-<h2 align="center">Android Appium Test</h2>
+<h2 align="center">Sherlock Test</h2>
   <p align="center">
-    Java / Maven / Appium / Android Studio / Junit5 / Allure-report
+    Java / Maven / Junit5 / Allure-report
   </p>
 </div>
 
@@ -46,16 +46,10 @@
 - Элемент extra может принимать значение null только для CategoryID=2
 - Массив extraArray должен иметь минимум один элемент для CategoryID=1
 - Поле success принимает значение true только если в массиве detectives есть элемент с firstName ="Sherlock"
+- пример файла .json в src/main/resources/test.json
 
 Остальными условиями для упрощения задачи можно пренебречь.
 
-**Особенности:**
-
-- Автотесты на JUnit5 более эффективны чем на JUnit4
-- Андроид-приложение запускается в эмуляторе при помощи Android-Studio
-- Appium GUI запускается в фоновом режиме
-- тесты работают с открытием приложения login.apk на экране эмулятора Андроид 10
-- закрытие экрана происходит один раз по окончании всех тестов
 
 **Для запуска тестов из командной строки можно использовать следующие команды:**
 
