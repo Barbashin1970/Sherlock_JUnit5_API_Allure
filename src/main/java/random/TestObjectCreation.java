@@ -21,7 +21,7 @@ public class TestObjectCreation {
 
         // Create Category objects with the Extra objects
         Category category1 = new Category(1, "extras1", extra1);
-        Category category2 = new Category(2, "extras2", extra2);
+        Category category2 = new Category(2, "extras2", null);
 
         // Add the Category objects to the respective lists
         categories1.add(category1);
@@ -53,15 +53,15 @@ public class TestObjectCreation {
         Extra extra2 = createExtraObject();
 
         // Create Category objects with the Extra objects
-        Category category1 = new Category(1, "extras1", null);
-        Category category2 = new Category(2, "extras2", null);
+        Category category1 = new Category(111, "extras1", null);
+        Category category2 = new Category(222, "extras2", null);
 
         // Add the Category objects to the respective lists
         categories1.add(category1);
         categories2.add(category2);
 
         // Create Detective objects with the categories
-        Detective detective1 = new Detective(1, "Sherlockk", "Holmes", true, categories1);
+        Detective detective1 = new Detective(12, "Sherlockk", "Holmes", true, categories1);
         Detective detective2 = new Detective(11, "John", "Watson", false, categories2);
 
         // Add the Detective objects to the list of detectives

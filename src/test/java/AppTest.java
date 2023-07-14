@@ -6,6 +6,7 @@ import pojo.DetectivesResponse;
 import pojo.Extra;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static random.TestObjectCreation.generateNegtiveDetectivesResponse;
@@ -13,71 +14,89 @@ import static random.TestObjectCreation.generatePositiveDetectivesResponse;
 
 public class AppTest {
 
+
     @Test
     @DisplayName("Проверка позитивного сценария")
-    public void testPositive() throws IOException {
-
+    public void testPositive() {
         DetectivesResponse detectivesResponse = generatePositiveDetectivesResponse();
 
-        // Проверка наличия хотя бы одного детектива
-        int size = detectivesResponse.getDetectives().size();
-        assertTrue(size >= 1 && size <= 3, "Вложено 0 или более 3 детективов");
+        assertAll("Detectives",
+                () -> {
+                    List<Detective> detectives = detectivesResponse.getDetectives();
 
-        boolean hasSherlock = false;
-        for (Detective detective : detectivesResponse.getDetectives()) {
-            if (detective.getFirstName().equals("Sherlock")) {
-                hasSherlock = true;
-                break;
-            }
-        }
+                    // Массив detectives может иметь не менее одного и не более 3-х объектов
+                    assertTrue(detectives.size() >= 1 && detectives.size() <= 3,
+                            "Ошибка: Массив detectives должен содержать от 1 до 3 объектов");
 
-        // Проверка значения поля success
-        assertEquals(hasSherlock, detectivesResponse.isSuccess(), "поле success = false - видимо это не Sherlock");
+                    for (Detective detective : detectives) {
+                        int mainId = detective.getMainId();
+                        List<Category> categories = detective.getCategories();
+
+                        for (Category category : categories) {
+                            int categoryId = category.getCategoryId();
+                            Extra extra = category.getExtra();
+
+                            assertAll("Category",
+                                    () -> {
+                                        // Поле MainId должно быть между 0 и 10
+                                        assertTrue(mainId >= 0 && mainId <= 10,
+                                                "Ошибка: Поле MainId должно быть между 0 и 10");
+
+                                        // CategoryID принимает значения 1 или 2
+                                        assertTrue(categoryId == 1 || categoryId == 2,
+                                                "Ошибка: Поле CategoryID должно быть 1 или 2");
+
+                                        if (categoryId == 2) {
+                                            // Элемент extra может принимать значение null только для CategoryID=2
+                                            assertNull(extra,
+                                                    "Ошибка: Элемент extra должен быть null для CategoryID=2");
+                                        } else {
+                                            // Массив extraArray должен иметь минимум один элемент для CategoryID=1
+                                            assertNotNull(extra,
+                                                    "Ошибка: Элемент extra не должен быть null для CategoryID=1");
+                                            assertFalse(extra.getExtraArray().isEmpty(),
+                                                    "Ошибка: Массив extraArray должен содержать минимум один элемент для CategoryID=1");
+                                        }
+                                    }
+                            );
+                        }
+                    }
+
+                    // Поле success принимает значение true только если в массиве detectives есть элемент с firstName ="Sherlock"
+                    boolean hasSherlock = detectives.stream()
+                            .anyMatch(detective -> detective.getFirstName().equals("Sherlock"));
+                    assertEquals(hasSherlock, detectivesResponse.isSuccess(),
+                            "Ошибка: Поле success должно быть true только если в массиве detectives есть элемент с firstName = Sherlock");
+                }
+        );
     }
 
-    @Test
-    @DisplayName("Детектив с именем 'Sherlock' существует")
-    public void positiveTest_SuccessIsTrue() {
-        DetectivesResponse detectivesResponse = generatePositiveDetectivesResponse();
-        assertTrue(detectivesResponse.isSuccess());
-    }
 
     @Test
-    @DisplayName("Negative Test - Success is false when detective with firstName 'Sherlock' doesn't exist")
-    public void negativeTest_SuccessIsFalse() {
+    @DisplayName("Негативный тест: Детектив с именем 'Sherlock' не существует")
+    public void testNegative_SuccessIsFalse() {
         DetectivesResponse detectivesResponse = generateNegtiveDetectivesResponse();
         assertFalse(detectivesResponse.isSuccess());
     }
 
     @Test
-    @DisplayName("Negative Test - Detectives list should have at least one detective")
-    public void negativeTest_DetectivesListNotEmpty() {
+    @DisplayName("Негативный тест: Массив detectives может иметь не менее одного и не более 3-х объектов")
+    public void testNegative_DetectivesListNotEmpty() {
         DetectivesResponse detectivesResponse = generateNegtiveDetectivesResponse();
         assertFalse(detectivesResponse.getDetectives().isEmpty());
     }
 
     @Test
-    @DisplayName("Negative Test - Detectives list should not exceed three detectives")
-    public void negativeTest_DetectivesListNotExceedThree() {
+    @DisplayName("Негативный тест:  Detectives list should not exceed three detectives")
+    public void testNegative_DetectivesListNotExceedThree() {
         DetectivesResponse detectivesResponse = generateNegtiveDetectivesResponse();
         assertTrue(detectivesResponse.getDetectives().size() <= 3);
     }
 
-    @Test
-    @DisplayName("Negative Test - CategoryID should be 1 or 2")
-    public void negativeTest_CategoryIDValidValues() {
-        DetectivesResponse detectivesResponse = generateNegtiveDetectivesResponse();
-        for (Detective detective : detectivesResponse.getDetectives()) {
-            for (Category category : detective.getCategories()) {
-                int categoryId = category.getCategoryId();
-                assertTrue(categoryId == 1 || categoryId == 2);
-            }
-        }
-    }
 
     @Test
-    @DisplayName("Negative Test - extra field should be null for CategoryID=2")
-    public void negativeTest_ExtraFieldNullForCategoryID2() {
+    @DisplayName("Негативный тест: Элемент extra может принимать значение null только для CategoryID=2")
+    public void testNegative_ExtraFieldNullForCategoryID2() {
         DetectivesResponse detectivesResponse = generateNegtiveDetectivesResponse();
         for (Detective detective : detectivesResponse.getDetectives()) {
             for (Category category : detective.getCategories()) {
@@ -89,8 +108,8 @@ public class AppTest {
     }
 
     @Test
-    @DisplayName("Negative Test - extraArray should have at least one element for CategoryID=1")
-    public void negativeTest_ExtraArrayHasAtLeastOneElementForCategoryID1() {
+    @DisplayName("Негативный тест: extraArray должен иметь хотя бы один элемент для CategoryID=1")
+    public void testNegative_ExtraArrayHasAtLeastOneElementForCategoryOne() {
         DetectivesResponse detectivesResponse = generateNegtiveDetectivesResponse();
         for (Detective detective : detectivesResponse.getDetectives()) {
             for (Category category : detective.getCategories()) {
@@ -103,29 +122,20 @@ public class AppTest {
 
 
     @Test
-    @DisplayName("Проверка негативного сценария")
-    public void testNegative() throws IOException {
+    @DisplayName("Негативный тест: CategoryID принимает значения 1 или 2")
+    public void testNegative_Category() {
         DetectivesResponse detectivesResponse = generateNegtiveDetectivesResponse();
 
-        // Проверка наличия детективов с недопустимыми значениями полей
-        for (Detective detective : detectivesResponse.getDetectives()) {
-            int mainId = detective.getMainId();
-            int categoryId = detective.getCategories().get(0).getCategoryId();
-            Extra extra = detective.getCategories().get(0).getExtra();
-
-            // Проверка значения поля MainId
-            // assertFalse(mainId >= 0 && mainId <= 10);
-
-            // Проверка значения поля CategoryID
-            assertTrue(categoryId == 1 || categoryId == 2);
-
-            // Проверка значения поля extra
-            if (categoryId == 2) {
-                assertNull(extra);
-            } else {
-                assertNotNull(extra);
-                assertFalse(extra.getExtraArray().isEmpty());
-            }
-        }
+        assertAll("CategoryId",
+                () -> {
+                    for (Detective detective : detectivesResponse.getDetectives()) {
+                        for (Category category : detective.getCategories()) {
+                            int categoryId = category.getCategoryId();
+                            assertFalse(categoryId == 1 || categoryId == 2);
+                        }
+                    }
+                }
+        );
     }
+
 }
