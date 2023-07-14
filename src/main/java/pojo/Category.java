@@ -1,24 +1,34 @@
 package pojo;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Category {
-    private int CategoryID;
-    private String CategoryName;
+    @SerializedName(value = "CategoryID")
+    private int categoryId;
+    @SerializedName(value = "CategoryName")
+    private String categoryName;
     private Extra extra;
 
-    public int getCategoryID() {
-        return CategoryID;
+    public Category(int categoryId, String categoryName, Extra extra) {
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.extra = extra;
     }
 
-    public void setCategoryID(int CategoryID) {
-        this.CategoryID = CategoryID;
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getCategoryName() {
-        return CategoryName;
+        return categoryName;
     }
 
-    public void setCategoryName(String CategoryName) {
-        this.CategoryName = CategoryName;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public Extra getExtra() {
