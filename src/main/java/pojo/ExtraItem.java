@@ -4,6 +4,12 @@ public class ExtraItem {
     private int violin;
     private int cap;
 
+    public ExtraItem(int violin, int cap) {
+        this.violin = violin;
+        this.cap = cap;
+    }
+
+
     public int getViolin() {
         return violin;
     }
@@ -19,4 +25,6 @@ public class ExtraItem {
     public void setCap(int cap) {
         this.cap = cap;
     }
+
+
 }
