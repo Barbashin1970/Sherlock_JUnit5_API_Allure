@@ -63,6 +63,7 @@ mvn clean test -Dtest=AppTest#testNegative
 ### Built With
 
 * <a href="https://www.java.com/ru/">Java 11</a>
+* <a href="https://mvnrepository.com/">Maven</a>
 * <a href="https://junit.org/junit5/docs/current/user-guide/">Junit 5</a>
 * <a href="https://github.com/allure-framework/">Allure Framework</a>
 
