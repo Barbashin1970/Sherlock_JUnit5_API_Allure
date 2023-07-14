@@ -1,20 +1,31 @@
 package pojo;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Detective {
-    private int MainId;
+    @SerializedName(value = "MainId")
+    private int mainId;
     private String firstName;
     private String lastName;
     private boolean violinPlayer;
     private List<Category> categories;
 
-    public int getMainId() {
-        return MainId;
+    public Detective(int mainId, String firstName, String lastName, boolean violinPlayer, List<Category> categories) {
+        this.mainId = mainId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.violinPlayer = violinPlayer;
+        this.categories = categories;
     }
 
-    public void setMainId(int MainId) {
-        this.MainId = MainId;
+    public int getMainId() {
+        return mainId;
+    }
+
+    public void setMainId(int mainId) {
+        this.mainId = mainId;
     }
 
     public String getFirstName() {

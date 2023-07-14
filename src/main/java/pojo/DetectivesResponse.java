@@ -2,9 +2,15 @@ package pojo;
 
 import java.util.List;
 
-public class DetectiveResponse {
+
+public class DetectivesResponse {
     private List<Detective> detectives;
     private boolean success;
+
+    public DetectivesResponse(List<Detective> detectives, boolean success) {
+        this.detectives = detectives;
+        this.success = success;
+    }
 
     public List<Detective> getDetectives() {
         return detectives;
@@ -21,4 +27,7 @@ public class DetectiveResponse {
     public void setSuccess(boolean success) {
         this.success = success;
     }
+
+
+
 }
