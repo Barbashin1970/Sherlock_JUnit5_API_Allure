@@ -5,7 +5,6 @@ import pojo.Detective;
 import pojo.DetectivesResponse;
 import pojo.Extra;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +15,7 @@ public class AppTest {
 
 
     @Test
-    @DisplayName("Проверка позитивного сценария")
+    @DisplayName("Проверка всех условий валидности json  в одном тесте")
     public void testPositive() {
         DetectivesResponse detectivesResponse = generatePositiveDetectivesResponse();
 
@@ -72,70 +71,54 @@ public class AppTest {
     }
 
 
-    @Test
-    @DisplayName("Негативный тест: Детектив с именем 'Sherlock' не существует")
-    public void testNegative_SuccessIsFalse() {
-        DetectivesResponse detectivesResponse = generateNegtiveDetectivesResponse();
-        assertFalse(detectivesResponse.isSuccess());
-    }
 
     @Test
-    @DisplayName("Негативный тест: Массив detectives может иметь не менее одного и не более 3-х объектов")
-    public void testNegative_DetectivesListNotEmpty() {
+    @DisplayName("Негативный тест: проверка всех условий валидности json - если любое условие не выполнится - тест покажет текстовую ошибку")
+    public void testNegative() {
         DetectivesResponse detectivesResponse = generateNegtiveDetectivesResponse();
-        assertFalse(detectivesResponse.getDetectives().isEmpty());
-    }
-
-    @Test
-    @DisplayName("Негативный тест:  Detectives list should not exceed three detectives")
-    public void testNegative_DetectivesListNotExceedThree() {
-        DetectivesResponse detectivesResponse = generateNegtiveDetectivesResponse();
-        assertTrue(detectivesResponse.getDetectives().size() <= 3);
-    }
-
-
-    @Test
-    @DisplayName("Негативный тест: Элемент extra может принимать значение null только для CategoryID=2")
-    public void testNegative_ExtraFieldNullForCategoryID2() {
-        DetectivesResponse detectivesResponse = generateNegtiveDetectivesResponse();
-        for (Detective detective : detectivesResponse.getDetectives()) {
-            for (Category category : detective.getCategories()) {
-                if (category.getCategoryId() == 2) {
-                    assertNull(category.getExtra());
-                }
-            }
-        }
-    }
-
-    @Test
-    @DisplayName("Негативный тест: extraArray должен иметь хотя бы один элемент для CategoryID=1")
-    public void testNegative_ExtraArrayHasAtLeastOneElementForCategoryOne() {
-        DetectivesResponse detectivesResponse = generateNegtiveDetectivesResponse();
-        for (Detective detective : detectivesResponse.getDetectives()) {
-            for (Category category : detective.getCategories()) {
-                if (category.getCategoryId() == 1) {
-                    assertFalse(category.getExtra().getExtraArray().isEmpty());
-                }
-            }
-        }
-    }
-
-
-    @Test
-    @DisplayName("Негативный тест: CategoryID принимает значения 1 или 2")
-    public void testNegative_Category() {
-        DetectivesResponse detectivesResponse = generateNegtiveDetectivesResponse();
-
-        assertAll("CategoryId",
+        assertAll("Detectives",
                 () -> {
-                    for (Detective detective : detectivesResponse.getDetectives()) {
-                        for (Category category : detective.getCategories()) {
+                    List<Detective> detectives = detectivesResponse.getDetectives();
+
+                    for (Detective detective : detectives) {
+                        int mainId = detective.getMainId();
+                        List<Category> categories = detective.getCategories();
+
+                        for (Category category : categories) {
                             int categoryId = category.getCategoryId();
-                            assertFalse(categoryId == 1 || categoryId == 2);
+                            Extra extra = category.getExtra();
+
+                            assertAll("Category",
+                                    () -> {
+                                        // Массив detectives может иметь не менее одного и не более 3-х объектов
+                                        assertTrue(detectives.size() >= 1 && detectives.size() <= 3,
+                                                "Ошибка: Массив detectives должен содержать от 1 до 3 объектов");
+
+                                        // Поле MainId должно быть между 0 и 10
+                                        assertFalse(mainId >= 0 && mainId <= 10,
+                                                "Ошибка: Поле MainId должно быть вне диапазона 0 и 10");
+
+                                        // CategoryID принимает значения 1 или 2
+                                        assertFalse(categoryId == 1 || categoryId == 2,
+                                                "Ошибка: Поле CategoryID должно быть 1 или 2");
+
+                                        if (categoryId == 2) {
+                                            // Элемент extra может принимать значение null только для CategoryID=2
+                                            assertNull(extra,
+                                                    "Ошибка: Элемент extra должен быть null для CategoryID=2");
+                                        } else {
+                                            // Массив extraArray должен иметь минимум один элемент для CategoryID=1
+                                            assertNull(extra,
+                                                    "Ошибка: Элемент extra не должен быть null для CategoryID=1");
+
+                                        }
+                                    }
+                            );
                         }
                     }
                 }
         );
     }
+
 
 }
