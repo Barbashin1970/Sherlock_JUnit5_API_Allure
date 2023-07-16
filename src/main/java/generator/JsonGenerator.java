@@ -1,11 +1,11 @@
-package random;
+package generator;
 
 import pojo.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestObjectCreation {
+public class JsonGenerator {
 
     public static DetectivesResponse generatePositiveDetectivesResponse() {
         // Create a list of Detective objects

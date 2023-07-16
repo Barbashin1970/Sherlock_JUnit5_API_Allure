@@ -8,8 +8,8 @@ import pojo.Extra;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static random.TestObjectCreation.generateNegtiveDetectivesResponse;
-import static random.TestObjectCreation.generatePositiveDetectivesResponse;
+import static generator.JsonGenerator.generateNegtiveDetectivesResponse;
+import static generator.JsonGenerator.generatePositiveDetectivesResponse;
 
 public class AppTest {
 
