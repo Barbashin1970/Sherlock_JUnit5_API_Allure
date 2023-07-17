@@ -55,12 +55,8 @@
 
 **Для запуска тестов из командной строки можно использовать следующие команды:**
 
+mvn clean test -Dtest=PositiveAssertAllTest#testPositiveAssertAll
 
-mvn clean test -Dtest=ParameterTest#testPositive
-mvn clean test -Dtest=ParameterTest#testNegative
-
-Где `ParameterTest` - имя класса с тестами,
-`testPositive` и `testNegative` - имена методов тестирования, которые необходимо запустить.
 
 ### Built With
 
