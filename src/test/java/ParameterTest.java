@@ -10,7 +10,7 @@ import java.util.List;
 import static generator.Helper.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AppTest {
+public class ParameterTest {
 
     @Test
     @DisplayName("Позитивный тест - Количество объектов Detective должно быть от 1 до 3")
@@ -26,7 +26,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Позитивный тест - значение поля mainId должно быть от 0 до 10")
-    public void testMainIdRange() {
+    public void testPositiveMainIdRange() {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
                 new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
@@ -41,7 +41,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Позитивный тест - Значение поля categoryId должно быть 1 или 2")
-    public void testCategoryIdValues() {
+    public void testPositiveCategoryIdValues() {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
                 new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
@@ -62,7 +62,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Позитивный тест - Элемент extra может принимать значение null только для categoryId=2")
-    public void testExtraValueForCategoryId2() {
+    public void testPositiveExtraValueForCategoryId2() {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
                 new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
@@ -85,7 +85,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Позитивный тест - Массив extraArray должен иметь минимум один элемент для categoryId=1")
-    public void testMinimumExtraArrayElementsForCategoryId1() {
+    public void testPositiveMinimumExtraArrayElementsForCategoryId1() {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
                 new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
@@ -110,7 +110,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Позитивный тест - только для firstName=Sherlock поле success = true")
-    public void testSuccessValueWithSherlock() {
+    public void testPositiveSuccessValueWithSherlock() {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
                 new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
@@ -139,7 +139,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Негативный тест - Количество объектов Detective должно быть от 1 до 3")
-    public void testInvalidNumberOfDetectives() {
+    public void testNegativeOverfullNumberOfDetectives() {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
                 new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
@@ -153,7 +153,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Негативный тест - Значение поля mainId должно быть от 0 до 10")
-    public void testInvalidMainIdRange() {
+    public void testNegativeInvalidMainIdRange() {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
                 new Detective(-5, "Sherlock", "Holmes", true, List.of(createCategory(-1, "name", createExtraObject()))),
@@ -169,7 +169,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Негативный тест - проверка допустимых значений поля categoryId - должно быть 1 или 2")
-    public void testInvalidCategoryIdValues() {
+    public void testNegativeInvalidCategoryIdValues() {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
                 new Detective(5, "Sherlock", "Holmes", true, List.of(createCategory(3, "name", createExtraObject()))),
@@ -187,7 +187,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Негативный тест - Элемент extra может принимать значение null только для categoryId=2")
-    public void testInvalidExtraValueForCategoryId2() {
+    public void testNegativeInvalidExtraValueForCategoryId2() {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
                 new Detective(5, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", null))),
@@ -207,7 +207,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Негативный тест - Массив extraArray должен иметь минимум один элемент для categoryId=1")
-    public void testMinimumExtraArrayElementsForCategory() {
+    public void testNegativeMinimumExtraArrayElementsForCategory() {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
                 new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", null))),
@@ -231,7 +231,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Негативный тест - только для firstName=Sherlock поле success = true")
-    public void testSuccessValueWithSherlockFalse() {
+    public void testNegativeSuccessValueWithSherlockFalse() {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
                 new Detective(1, "Sherl", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
