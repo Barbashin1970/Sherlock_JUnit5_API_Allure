@@ -41,10 +41,10 @@
 - Результатом работы приложения выступает файл в формате json.
 - В данном файле случайным образом могут изменяться следующие значения:
 - Массив detectives может иметь не менее одного и не более 3-х объектов. 
-- При этом поле MainId может случайным образом меняться от 0 до 10
-- CategoryID принимает значения 1 или 2
-- Элемент extra может принимать значение null только для CategoryID=2
-- Массив extraArray должен иметь минимум один элемент для CategoryID=1
+- При этом поле mainId может случайным образом меняться от 0 до 10
+- categoryId принимает значения 1 или 2
+- Элемент extra может принимать значение null только для categoryId=2
+- Массив extraArray должен иметь минимум один элемент для categoryId=1
 - Поле success принимает значение true только если в массиве detectives есть элемент с firstName ="Sherlock"
 - пример файла .json в src/main/resources/test.json
 
@@ -54,10 +54,10 @@
 **Для запуска тестов из командной строки можно использовать следующие команды:**
 
 
-mvn clean test -Dtest=AppTest#testPositive
-mvn clean test -Dtest=AppTest#testNegative
+mvn clean test -Dtest=ParameterTest#testPositive
+mvn clean test -Dtest=ParameterTest#testNegative
 
-Где `AppTest` - имя класса с тестами,
+Где `ParameterTest` - имя класса с тестами,
 `testPositive` и `testNegative` - имена методов тестирования, которые необходимо запустить.
 
 ### Built With

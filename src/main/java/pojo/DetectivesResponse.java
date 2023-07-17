@@ -12,6 +12,10 @@ public class DetectivesResponse {
         this.success = success;
     }
 
+    public DetectivesResponse() {
+
+    }
+
     public List<Detective> getDetectives() {
         return detectives;
     }

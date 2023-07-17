@@ -1,24 +1,24 @@
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pojo.Category;
-import pojo.Detective;
-import pojo.DetectivesResponse;
-import pojo.Extra;
+import pojo.*;
 
 import java.util.List;
 
+import static generator.Helper.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static random.TestObjectCreation.generateNegtiveDetectivesResponse;
-import static random.TestObjectCreation.generatePositiveDetectivesResponse;
 
-public class AppTest {
+public class PositiveAssertAllTest {
 
 
     @Test
-    @DisplayName("Проверка всех условий валидности json  в одном тесте")
-    public void testPositive() {
-        DetectivesResponse detectivesResponse = generatePositiveDetectivesResponse();
-
+    @DisplayName("Проверка всех условий валидности json в одном тесте")
+    public void testPositiveAssertAll() {
+        DetectivesResponse detectivesResponse = new DetectivesResponse();
+        detectivesResponse.setDetectives(List.of(
+                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
+                new Detective(10, "Sher", "Homes", false, List.of(createCategory(2, "name", null)))
+        ));
+        detectivesResponse.setSuccess(true); // установим поле объекта detectivesResponse
         assertAll("Detectives",
                 () -> {
                     List<Detective> detectives = detectivesResponse.getDetectives();
@@ -69,56 +69,4 @@ public class AppTest {
                 }
         );
     }
-
-
-
-    @Test
-    @DisplayName("Негативный тест: проверка всех условий валидности json - если любое условие не выполнится - тест покажет текстовую ошибку")
-    public void testNegative() {
-        DetectivesResponse detectivesResponse = generateNegtiveDetectivesResponse();
-        assertAll("Detectives",
-                () -> {
-                    List<Detective> detectives = detectivesResponse.getDetectives();
-
-                    for (Detective detective : detectives) {
-                        int mainId = detective.getMainId();
-                        List<Category> categories = detective.getCategories();
-
-                        for (Category category : categories) {
-                            int categoryId = category.getCategoryId();
-                            Extra extra = category.getExtra();
-
-                            assertAll("Category",
-                                    () -> {
-                                        // Массив detectives может иметь не менее одного и не более 3-х объектов
-                                        assertTrue(detectives.size() >= 1 && detectives.size() <= 3,
-                                                "Ошибка: Массив detectives должен содержать от 1 до 3 объектов");
-
-                                        // Поле MainId должно быть между 0 и 10
-                                        assertFalse(mainId >= 0 && mainId <= 10,
-                                                "Ошибка: Поле MainId должно быть вне диапазона 0 и 10");
-
-                                        // CategoryID принимает значения 1 или 2
-                                        assertFalse(categoryId == 1 || categoryId == 2,
-                                                "Ошибка: Поле CategoryID должно быть 1 или 2");
-
-                                        if (categoryId == 2) {
-                                            // Элемент extra может принимать значение null только для CategoryID=2
-                                            assertNull(extra,
-                                                    "Ошибка: Элемент extra должен быть null для CategoryID=2");
-                                        } else {
-                                            // Массив extraArray должен иметь минимум один элемент для CategoryID=1
-                                            assertNull(extra,
-                                                    "Ошибка: Элемент extra не должен быть null для CategoryID=1");
-
-                                        }
-                                    }
-                            );
-                        }
-                    }
-                }
-        );
-    }
-
-
 }
