@@ -37,9 +37,9 @@ public class Helper {
     }
 
 
-    public static Extra createExtraObject() {
+    public static Extra createExtraObject(int violin, int cap) {
         List<ExtraItem> extraItems = new ArrayList<>();
-        extraItems.add(new ExtraItem(1, 2));
+        extraItems.add(new ExtraItem(violin, cap));
         return new Extra(extraItems);
     }
 
@@ -47,4 +47,26 @@ public class Helper {
         return new Category(category, categoryName, extra);
     }
 
+    public static Detective createDetective(int mainId, String firstName, String lastName, boolean violinPlayer, List<Category> categories) {
+        return new Detective(mainId, firstName, lastName, violinPlayer, categories);
+
+    }
+
+    public static DetectivesResponse createDetectiveResponse(List<Detective> detectives, boolean success) {
+        return new DetectivesResponse(detectives, success);
+    }
+
+    public static DetectivesResponse createTwoDetectiveResponse(int cat1, int cat2, String catName1, String catName2, int violin, int cap, int mainId1, int mainId2, String firstName1, String firstName2, String lastName1, String lastName2, boolean extra2IsNull, boolean violinPlayer1, boolean violinPlayer2, boolean success) {
+
+        Extra extra = createExtraObject(violin, cap);
+        Category category1 = createCategory(cat1, catName1, extra);
+        Category category2 = createCategory(cat2, catName2, extra);
+        if (extra2IsNull) {
+            category2 = createCategory(cat2, catName2, null);
+        }
+        Detective detective1 = createDetective(mainId1, firstName1, lastName1, violinPlayer1, List.of(category1, category2));
+        Detective detective2 = createDetective(mainId2, firstName2, lastName2, violinPlayer2, List.of(category1));
+        return createDetectiveResponse(List.of(detective1, detective2), success);
+    }
 }
+
