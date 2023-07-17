@@ -15,23 +15,50 @@ public class ParameterTest {
     @Test
     @DisplayName("Позитивный тест - Количество объектов Detective должно быть от 1 до 3")
     public void testPositiveNumberOfDetectives() {
-        DetectivesResponse detectivesResponse = new DetectivesResponse();
-        detectivesResponse.setDetectives(List.of(
-                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
-                new Detective(10, "Sher", "Homes", false, List.of(createCategory(2, "name", null)))
-        ));
+        DetectivesResponse detectivesResponse = createTwoDetectiveResponse(
+                1,
+                2,
+                "one",
+                "two",
+                1,
+                2,
+                1,
+                2,
+                "Sherlock",
+                "Tom",
+                "Holmes",
+                "Cat",
+                true,
+                true,
+                false,
+                true);
         int size = detectivesResponse.getDetectives().size();
+
         assertTrue(size >= 1 && size <= 3, "Ошибка: Количество объектов Detective должно быть от 1 до 3");
     }
 
     @Test
     @DisplayName("Позитивный тест - значение поля mainId должно быть от 0 до 10")
     public void testPositiveMainIdRange() {
-        DetectivesResponse detectivesResponse = new DetectivesResponse();
-        detectivesResponse.setDetectives(List.of(
-                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
-                new Detective(10, "Sher", "Homes", false, List.of(createCategory(2, "name", null)))
-        ));
+
+        DetectivesResponse detectivesResponse = createTwoDetectiveResponse(
+                1,
+                2,
+                "one",
+                "two",
+                1,
+                2,
+                1,
+                10,
+                "Sherlock",
+                "Tom",
+                "Holmes",
+                "Cat",
+                true,
+                true,
+                false,
+                true);
+
         for (Detective detective : detectivesResponse.getDetectives()) {
             int mainId = detective.getMainId();
             assertTrue(mainId >= 0 && mainId <= 10,
@@ -42,11 +69,23 @@ public class ParameterTest {
     @Test
     @DisplayName("Позитивный тест - Значение поля categoryId должно быть 1 или 2")
     public void testPositiveCategoryIdValues() {
-        DetectivesResponse detectivesResponse = new DetectivesResponse();
-        detectivesResponse.setDetectives(List.of(
-                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
-                new Detective(10, "Sher", "Homes", false, List.of(createCategory(2, "name", null)))
-        ));
+        DetectivesResponse detectivesResponse = createTwoDetectiveResponse(
+                1,
+                2,
+                "one",
+                "two",
+                1,
+                2,
+                1,
+                10,
+                "Sherlock",
+                "Tom",
+                "Holmes",
+                "Cat",
+                true,
+                true,
+                false,
+                true);
 
         for (Detective detective : detectivesResponse.getDetectives()) {
             List<Category> categories = detective.getCategories();
@@ -63,11 +102,23 @@ public class ParameterTest {
     @Test
     @DisplayName("Позитивный тест - Элемент extra может принимать значение null только для categoryId=2")
     public void testPositiveExtraValueForCategoryId2() {
-        DetectivesResponse detectivesResponse = new DetectivesResponse();
-        detectivesResponse.setDetectives(List.of(
-                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
-                new Detective(10, "Sher", "Homes", false, List.of(createCategory(2, "name", null)))
-        ));
+        DetectivesResponse detectivesResponse = createTwoDetectiveResponse(
+                1,
+                2,
+                "one",
+                "two",
+                1,
+                2,
+                1,
+                10,
+                "Sherlock",
+                "Tom",
+                "Holmes",
+                "Cat",
+                true,
+                true,
+                false,
+                true);
 
         for (Detective detective : detectivesResponse.getDetectives()) {
             List<Category> categories = detective.getCategories();
@@ -86,11 +137,23 @@ public class ParameterTest {
     @Test
     @DisplayName("Позитивный тест - Массив extraArray должен иметь минимум один элемент для categoryId=1")
     public void testPositiveMinimumExtraArrayElementsForCategoryId1() {
-        DetectivesResponse detectivesResponse = new DetectivesResponse();
-        detectivesResponse.setDetectives(List.of(
-                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
-                new Detective(10, "Sher", "Homes", false, List.of(createCategory(2, "name", null)))
-        ));
+        DetectivesResponse detectivesResponse = createTwoDetectiveResponse(
+                1,
+                2,
+                "one",
+                "two",
+                1,
+                2,
+                1,
+                10,
+                "Sherlock",
+                "Tom",
+                "Holmes",
+                "Cat",
+                true,
+                true,
+                false,
+                true);
 
         for (Detective detective : detectivesResponse.getDetectives()) {
             List<Category> categories = detective.getCategories();
@@ -111,12 +174,23 @@ public class ParameterTest {
     @Test
     @DisplayName("Позитивный тест - только для firstName=Sherlock поле success = true")
     public void testPositiveSuccessValueWithSherlock() {
-        DetectivesResponse detectivesResponse = new DetectivesResponse();
-        detectivesResponse.setDetectives(List.of(
-                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
-                new Detective(10, "Sher", "Homes", false, List.of(createCategory(2, "name", null)))
-        ));
-        detectivesResponse.setSuccess(true); // установим поле объекта detectivesResponse
+        DetectivesResponse detectivesResponse = createTwoDetectiveResponse(
+                1,
+                2,
+                "one",
+                "two",
+                1,
+                2,
+                1,
+                10,
+                "Sherlock",
+                "Tom",
+                "Holmes",
+                "Cat",
+                true,
+                true,
+                false,
+                true);
 
         boolean success = detectivesResponse.isSuccess();
         boolean hasSherlock = false;
@@ -142,10 +216,10 @@ public class ParameterTest {
     public void testNegativeOverfullNumberOfDetectives() {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
-                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
-                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
-                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
-                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject())))
+                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject(1, 2)))),
+                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject(0, 0)))),
+                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", null))),
+                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject(1, 2))))
         ));
         int size = detectivesResponse.getDetectives().size();
         assertFalse(size >= 1 && size <= 3, "Ошибка: Количество объектов Detective должно быть от 1 до 3");
@@ -156,8 +230,8 @@ public class ParameterTest {
     public void testNegativeInvalidMainIdRange() {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
-                new Detective(-5, "Sherlock", "Holmes", true, List.of(createCategory(-1, "name", createExtraObject()))),
-                new Detective(15, "John", "Watson", true, List.of(createCategory(20, "name", createExtraObject())))
+                new Detective(-5, "Sherlock", "Holmes", true, List.of(createCategory(-1, "name", createExtraObject(1, 2)))),
+                new Detective(15, "John", "Watson", true, List.of(createCategory(20, "name", createExtraObject(1, 2))))
         ));
 
         for (Detective detective : detectivesResponse.getDetectives()) {
@@ -172,8 +246,8 @@ public class ParameterTest {
     public void testNegativeInvalidCategoryIdValues() {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
-                new Detective(5, "Sherlock", "Holmes", true, List.of(createCategory(3, "name", createExtraObject()))),
-                new Detective(2, "John", "Watson", true, List.of(createCategory(4, "name", createExtraObject())))
+                new Detective(5, "Sherlock", "Holmes", true, List.of(createCategory(3, "name", createExtraObject(1, 2)))),
+                new Detective(2, "John", "Watson", true, List.of(createCategory(4, "name", createExtraObject(1, 2))))
         ));
 
         for (Detective detective : detectivesResponse.getDetectives()) {
@@ -191,7 +265,7 @@ public class ParameterTest {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
                 new Detective(5, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", null))),
-                new Detective(2, "John", "Watson", true, List.of(createCategory(2, "name", createExtraObject())))
+                new Detective(2, "John", "Watson", true, List.of(createCategory(2, "name", createExtraObject(1, 2))))
         ));
         printJson(detectivesResponse);
         for (Detective detective : detectivesResponse.getDetectives()) {
@@ -211,7 +285,7 @@ public class ParameterTest {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
                 new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", null))),
-                new Detective(10, "Sher", "Homes", false, List.of(createCategory(2, "name", createExtraObject())))
+                new Detective(10, "Sher", "Homes", false, List.of(createCategory(2, "name", createExtraObject(1, 2))))
         ));
 
         for (Detective detective : detectivesResponse.getDetectives()) {
@@ -234,7 +308,7 @@ public class ParameterTest {
     public void testNegativeSuccessValueWithSherlockFalse() {
         DetectivesResponse detectivesResponse = new DetectivesResponse();
         detectivesResponse.setDetectives(List.of(
-                new Detective(1, "Sherl", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
+                new Detective(1, "Sherl", "Holmes", true, List.of(createCategory(1, "name", createExtraObject(1, 2)))),
                 new Detective(10, "Sher", "Homes", false, List.of(createCategory(2, "name", null)))
         ));
         detectivesResponse.setSuccess(true); // установим поле объекта detectivesResponse

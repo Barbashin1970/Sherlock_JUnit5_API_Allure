@@ -10,15 +10,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PositiveAssertAllTest {
 
 
+
+
+
     @Test
     @DisplayName("Проверка всех условий валидности json в одном тесте")
     public void testPositiveAssertAll() {
-        DetectivesResponse detectivesResponse = new DetectivesResponse();
-        detectivesResponse.setDetectives(List.of(
-                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", createExtraObject()))),
-                new Detective(10, "Sher", "Homes", false, List.of(createCategory(2, "name", null)))
-        ));
-        detectivesResponse.setSuccess(true); // установим поле объекта detectivesResponse
+        DetectivesResponse detectivesResponse = createTwoDetectiveResponse(1,2,"one", "two", 1, 2, 1,2, "Sherlock", "Tom", "Holmes", "Cat", true, true, false, true
+        );
         assertAll("Detectives",
                 () -> {
                     List<Detective> detectives = detectivesResponse.getDetectives();
