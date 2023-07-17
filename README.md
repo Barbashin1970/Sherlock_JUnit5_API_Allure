@@ -47,6 +47,8 @@
 - Массив extraArray должен иметь минимум один элемент для categoryId=1
 - Поле success принимает значение true только если в массиве detectives есть элемент с firstName ="Sherlock"
 - пример файла .json в src/main/resources/test.json
+- отчет Allure - src/main/resources/allure-report-2023-07-17_14-01-19.png
+- https://github.com/Barbashin1970/Sherlock_JUnit5_API_Allure/blob/main/src/main/resources/allure-report-2023-07-17_14-01-19.png
 
 Остальными условиями для упрощения задачи можно пренебречь.
 
