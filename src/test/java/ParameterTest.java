@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import pojo.Category;
 import pojo.Detective;
 import pojo.DetectivesResponse;
@@ -37,9 +39,11 @@ public class ParameterTest {
         assertTrue(size >= 1 && size <= 3, "Ошибка: Количество объектов Detective должно быть от 1 до 3");
     }
 
-    @Test
+    @ParameterizedTest
     @DisplayName("Позитивный тест - значение поля mainId должно быть от 0 до 10")
-    public void testPositiveMainIdRange() {
+    @ValueSource(ints = { 1, 5, 10 })
+
+    public void testPositiveMainIdRange(int mainId1) {
 
         DetectivesResponse detectivesResponse = createTwoDetectiveResponse(
                 1,
@@ -48,7 +52,7 @@ public class ParameterTest {
                 "two",
                 1,
                 2,
-                1,
+                mainId1,
                 10,
                 "Sherlock",
                 "Tom",
@@ -66,11 +70,12 @@ public class ParameterTest {
         }
     }
 
-    @Test
+    @ParameterizedTest
     @DisplayName("Позитивный тест - Значение поля categoryId должно быть 1 или 2")
-    public void testPositiveCategoryIdValues() {
+    @ValueSource (ints = {1, 2})
+    public void testPositiveCategoryIdValues(int cat1) {
         DetectivesResponse detectivesResponse = createTwoDetectiveResponse(
-                1,
+                cat1,
                 2,
                 "one",
                 "two",
