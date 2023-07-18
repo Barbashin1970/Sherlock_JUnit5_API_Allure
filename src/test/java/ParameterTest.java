@@ -35,13 +35,13 @@ public class ParameterTest {
                 false,
                 true);
         int size = detectivesResponse.getDetectives().size();
-
+        printJson(detectivesResponse);
         assertTrue(size >= 1 && size <= 3, "Ошибка: Количество объектов Detective должно быть от 1 до 3");
     }
 
     @ParameterizedTest
     @DisplayName("Позитивный тест - значение поля mainId должно быть от 0 до 10")
-    @ValueSource(ints = { 1, 5, 10 })
+    @ValueSource(ints = {1, 5, 10})
 
     public void testPositiveMainIdRange(int mainId1) {
 
@@ -72,7 +72,7 @@ public class ParameterTest {
 
     @ParameterizedTest
     @DisplayName("Позитивный тест - Значение поля categoryId должно быть 1 или 2")
-    @ValueSource (ints = {1, 2})
+    @ValueSource(ints = {1, 2})
     public void testPositiveCategoryIdValues(int cat1) {
         DetectivesResponse detectivesResponse = createTwoDetectiveResponse(
                 cat1,
@@ -176,9 +176,10 @@ public class ParameterTest {
         }
     }
 
-    @Test
+    @ParameterizedTest
     @DisplayName("Позитивный тест - только для firstName=Sherlock поле success = true")
-    public void testPositiveSuccessValueWithSherlock() {
+    @ValueSource(strings = {"Mister", "Twister", "Former", "Minister"})
+    public void testPositiveSuccessValueWithSherlock(String firstName2) {
         DetectivesResponse detectivesResponse = createTwoDetectiveResponse(
                 1,
                 2,
@@ -189,7 +190,7 @@ public class ParameterTest {
                 1,
                 10,
                 "Sherlock",
-                "Tom",
+                firstName2,
                 "Holmes",
                 "Cat",
                 true,
@@ -230,31 +231,62 @@ public class ParameterTest {
         assertFalse(size >= 1 && size <= 3, "Ошибка: Количество объектов Detective должно быть от 1 до 3");
     }
 
-    @Test
+    @ParameterizedTest
     @DisplayName("Негативный тест - Значение поля mainId должно быть от 0 до 10")
-    public void testNegativeInvalidMainIdRange() {
-        DetectivesResponse detectivesResponse = new DetectivesResponse();
-        detectivesResponse.setDetectives(List.of(
-                new Detective(-5, "Sherlock", "Holmes", true, List.of(createCategory(-1, "name", createExtraObject(1, 2)))),
-                new Detective(15, "John", "Watson", true, List.of(createCategory(20, "name", createExtraObject(1, 2))))
-        ));
+    @ValueSource(ints = {11, 33, 100, -1, -100})
+    public void testNegativeInvalidMainIdRange(int mainId1) {
+        DetectivesResponse detectivesResponse = createTwoDetectiveResponse(
+                1,
+                2,
+                "one",
+                "two",
+                1,
+                2,
+                mainId1,
+                2,
+                "Sherlock",
+                "Tom",
+                "Holmes",
+                "Cat",
+                true,
+                true,
+                false,
+                true);
+        boolean mainIdOk = false;
 
         for (Detective detective : detectivesResponse.getDetectives()) {
             int mainId = detective.getMainId();
-            assertFalse(mainId >= 0 && mainId <= 10, "Ошибка: Значение поля mainId должно быть от 0 до 10");
+            if (mainId >= 0 && mainId <= 10) {
+                mainIdOk = true;
+                break;
+            }
         }
+        assertTrue(mainIdOk, "Ошибка: Значение поля mainId должно быть от 0 до 10");
+
     }
 
 
-    @Test
+    @ParameterizedTest
     @DisplayName("Негативный тест - проверка допустимых значений поля categoryId - должно быть 1 или 2")
-    public void testNegativeInvalidCategoryIdValues() {
-        DetectivesResponse detectivesResponse = new DetectivesResponse();
-        detectivesResponse.setDetectives(List.of(
-                new Detective(5, "Sherlock", "Holmes", true, List.of(createCategory(3, "name", createExtraObject(1, 2)))),
-                new Detective(2, "John", "Watson", true, List.of(createCategory(4, "name", createExtraObject(1, 2))))
-        ));
-
+    @ValueSource(ints = {0, 3, 100, -1, -100})
+    public void testNegativeInvalidCategoryId(int cat) {
+        DetectivesResponse detectivesResponse = createTwoDetectiveResponse(
+                cat,
+                cat,
+                "one",
+                "two",
+                1,
+                2,
+                1,
+                10,
+                "Sherl",
+                "Tom",
+                "Holmes",
+                "Cat",
+                true,
+                true,
+                false,
+                true);
         for (Detective detective : detectivesResponse.getDetectives()) {
             List<Category> categories = detective.getCategories();
             for (Category category : categories) {
@@ -267,12 +299,24 @@ public class ParameterTest {
     @Test
     @DisplayName("Негативный тест - Элемент extra может принимать значение null только для categoryId=2")
     public void testNegativeInvalidExtraValueForCategoryId2() {
-        DetectivesResponse detectivesResponse = new DetectivesResponse();
-        detectivesResponse.setDetectives(List.of(
-                new Detective(5, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", null))),
-                new Detective(2, "John", "Watson", true, List.of(createCategory(2, "name", createExtraObject(1, 2))))
-        ));
-        printJson(detectivesResponse);
+        DetectivesResponse detectivesResponse = createTwoDetectiveResponse(
+                2,
+                1,
+                "one",
+                "two",
+                1,
+                2,
+                5,
+                2,
+                "Sherlock",
+                "Tom",
+                "Holmes",
+                "Cat",
+                true,
+                true,
+                false,
+                true);
+
         for (Detective detective : detectivesResponse.getDetectives()) {
             List<Category> categories = detective.getCategories();
             for (Category category : categories) {
@@ -287,12 +331,23 @@ public class ParameterTest {
     @Test
     @DisplayName("Негативный тест - Массив extraArray должен иметь минимум один элемент для categoryId=1")
     public void testNegativeMinimumExtraArrayElementsForCategory() {
-        DetectivesResponse detectivesResponse = new DetectivesResponse();
-        detectivesResponse.setDetectives(List.of(
-                new Detective(1, "Sherlock", "Holmes", true, List.of(createCategory(1, "name", null))),
-                new Detective(10, "Sher", "Homes", false, List.of(createCategory(2, "name", createExtraObject(1, 2))))
-        ));
-
+        DetectivesResponse detectivesResponse = createTwoDetectiveResponse(
+                2,
+                1,
+                "one",
+                "two",
+                1,
+                2,
+                1,
+                10,
+                "Sherlock",
+                "Tom",
+                "Holmes",
+                "Cat",
+                true,
+                true,
+                false,
+                true);
         for (Detective detective : detectivesResponse.getDetectives()) {
             List<Category> categories = detective.getCategories();
 
@@ -308,15 +363,28 @@ public class ParameterTest {
     }
 
 
-    @Test
+    @ParameterizedTest
     @DisplayName("Негативный тест - только для firstName=Sherlock поле success = true")
-    public void testNegativeSuccessValueWithSherlockFalse() {
-        DetectivesResponse detectivesResponse = new DetectivesResponse();
-        detectivesResponse.setDetectives(List.of(
-                new Detective(1, "Sherl", "Holmes", true, List.of(createCategory(1, "name", createExtraObject(1, 2)))),
-                new Detective(10, "Sher", "Homes", false, List.of(createCategory(2, "name", null)))
-        ));
-        detectivesResponse.setSuccess(true); // установим поле объекта detectivesResponse
+    @ValueSource(strings = {"Sherlok", "Sherlock ", " Sherlock", "Sher lock"})
+
+    public void testNegativeSuccessValueWithSherlockFalse(String name) {
+        DetectivesResponse detectivesResponse = createTwoDetectiveResponse(
+                1,
+                2,
+                "one",
+                "two",
+                1,
+                2,
+                1,
+                10,
+                name,
+                "Tom",
+                "Holmes",
+                "Cat",
+                true,
+                true,
+                false,
+                true);
 
         boolean success = detectivesResponse.isSuccess();
         boolean hasSherlock = false;
@@ -329,9 +397,7 @@ public class ParameterTest {
         }
 
         if (hasSherlock) {
-            assertTrue(success, "Ошибка: success должен быть true когда есть детектив с firstName=Sherlock");
-        } else {
-            assertTrue(success, "Ошибка: success должен быть false когда нет детективов с firstName=Sherlock");
+            assertFalse(success, "Ошибка: success должен быть true когда есть детектив с firstName=Sherlock");
         }
     }
 

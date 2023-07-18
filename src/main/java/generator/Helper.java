@@ -10,8 +10,9 @@ public class Helper {
     public static void printJson(DetectivesResponse detectivesResponse) {
         List<Detective> detectives = detectivesResponse.getDetectives();
         boolean success = detectivesResponse.isSuccess();
-
-        System.out.println("Detectives Response:");
+        System.out.println();
+        System.out.println("         Тестовые данные для файла json:              ");
+        System.out.println("======================================================");
         System.out.println("Success: " + success);
         System.out.println("Detectives:");
         for (Detective detective : detectives) {
@@ -34,6 +35,7 @@ public class Helper {
                 }
             }
         }
+        System.out.println("======================================================");
     }
 
 

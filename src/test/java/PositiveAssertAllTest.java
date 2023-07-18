@@ -9,14 +9,26 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PositiveAssertAllTest {
 
-
-
-
-
     @Test
     @DisplayName("Проверка всех условий валидности json в одном тесте")
     public void testPositiveAssertAll() {
-        DetectivesResponse detectivesResponse = createTwoDetectiveResponse(1,2,"one", "two", 1, 2, 1,2, "Sherlock", "Tom", "Holmes", "Cat", true, true, false, true
+        DetectivesResponse detectivesResponse = createTwoDetectiveResponse(
+                1,
+                2,
+                "one",
+                "two",
+                1,
+                2,
+                1,
+                2,
+                "Sherlock",
+                "Tom",
+                "Holmes",
+                "Cat",
+                true,
+                true,
+                false,
+                true
         );
         assertAll("Detectives",
                 () -> {
