@@ -48,7 +48,8 @@
 - Поле success принимает значение true только если в массиве detectives есть элемент с firstName ="Sherlock"
 - пример файла .json в src/main/resources/test.json
 - отчет Allure - src/main/resources/2023-07-19_01-03-42.png
-- https://github.com/Barbashin1970/Sherlock_JUnit5_API_Allure/blob/main/src/main/resources/allure-report-2023-07-17_14-01-19.png
+- https://github.com/Barbashin1970/Sherlock_JUnit5_API_Allure/blob/develop/src/main/resources/2023-07-19_01-03-42.png
+- https://github.com/Barbashin1970/Sherlock_JUnit5_API_Allure/blob/develop/src/main/resources/2023-07-19_01-04-00.png
 
 Остальными условиями для упрощения задачи можно пренебречь.
 
